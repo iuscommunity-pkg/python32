@@ -1,0 +1,11 @@
+--- Python-3.2.3/configure.in.orig	2012-07-30 14:22:19.934514454 -0500
++++ Python-3.2.3/configure.in	2012-07-30 14:22:31.791390802 -0500
+@@ -768,7 +768,7 @@
+ 	  INSTSONAME="$LDLIBRARY".$SOVERSION
+ 	  if test "$with_pydebug" != yes
+           then
+-	      PY3LIBRARY=libpython3.so
++	      PY3LIBRARY=libpython3.2.so
+ 	  fi
+ 	  ;;
+     hp*|HP*)
