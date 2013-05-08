@@ -1,41 +1,44 @@
-diff -up Python-3.2b2/configure.in.systemtap Python-3.2b2/configure.in
---- Python-3.2b2/configure.in.systemtap	2010-12-13 02:59:39.000000000 -0500
-+++ Python-3.2b2/configure.in	2010-12-28 17:01:58.044059433 -0500
-@@ -2470,6 +2470,38 @@ if test "$with_valgrind" != no; then
+--- Python-3.2.4/configure.ac   2013-04-06 02:38:49.000000000 -0500
++++ Python-3.2.4/configure.ac.patch     2013-04-12 12:56:15.456579808 -0500
+@@ -2578,6 +2578,42 @@
      OPT="-DDYNAMIC_ANNOTATIONS_ENABLED=1 $OPT"
  fi
  
-+# Check for dtrace support
-+AC_MSG_CHECKING(for --with-dtrace)
-+AC_ARG_WITH(dtrace,
++# Check for dtrace support                                                    
++AC_MSG_CHECKING(for --with-dtrace)                                            
++AC_ARG_WITH(dtrace,                                                           
 +            AC_HELP_STRING(--with(out)-dtrace, disable/enable dtrace support))
-+
-+if test ! -z "$with_dtrace"
-+then
-+    if dtrace -G -o /dev/null -s $srcdir/Include/pydtrace.d 2>/dev/null
-+    then
-+	AC_DEFINE(WITH_DTRACE, 1, 
-+	 [Define if you want to compile in Dtrace support])
-+	with_dtrace="Sun"
-+	DTRACEOBJS="Python/dtrace.o"
-+	DTRADEHDRS=""
-+    elif dtrace -h -o /dev/null -s $srcdir/Include/pydtrace.d
-+   then
-+	AC_DEFINE(WITH_DTRACE, 1, 
-+	 [Define if you want to compile in Dtrace support])
-+	with_dtrace="Apple"
-+	DTRACEOBJS=""
-+	DTRADEHDRS="pydtrace.h"
-+    else
-+	with_dtrace="no"
-+    fi
-+else
-+    with_dtrace="no"
-+fi
-+
-+AC_MSG_RESULT($with_dtrace)
-+AC_SUBST(DTRACEOBJS)
-+AC_SUBST(DTRACEHDRS)
++                                                                              
++if test ! -z "$with_dtrace"                                                   
++then                                                                          
++    if dtrace -G -o /dev/null -s $srcdir/Include/pydtrace.d 2>/dev/null       
++    then                                                                      
++       AC_DEFINE(WITH_DTRACE, 1,                                              
++        [Define if you want to compile in Dtrace support])                    
++       with_dtrace="Sun"                                                      
++       DTRACEOBJS="Python/dtrace.o"                                           
++       DTRADEHDRS=""                                                          
++    elif dtrace -h -o /dev/null -s $srcdir/Include/pydtrace.d                 
++   then                                                                       
++       AC_DEFINE(WITH_DTRACE, 1,                                              
++        [Define if you want to compile in Dtrace support])                    
++       with_dtrace="Apple"                                                    
++       DTRACEOBJS=""                                                          
++       DTRADEHDRS="pydtrace.h"                                                
++    else                                                                      
++       with_dtrace="no"                                                       
++    fi                                                                        
++else                                                                          
++    with_dtrace="no"                                                          
++fi                                                                            
++                                                                              
++AC_MSG_RESULT($with_dtrace)                                                   
++AC_SUBST(DTRACEOBJS)                                                          
++AC_SUBST(DTRACEHDRS)                                                          
++                                                                              
++# -I${DLINCLDIR} is added to the compile rule for importdl.o                  
++AC_SUBST(DLINCLDIR)                                                           
++DLINCLDIR=.                                                                   
 +
  # -I${DLINCLDIR} is added to the compile rule for importdl.o
  AC_SUBST(DLINCLDIR)
@@ -54,45 +57,6 @@ diff -up Python-3.2b2/Include/pydtrace.d.systemtap Python-3.2b2/Include/pydtrace
 +#pragma D attributes Private/Private/Common provider python function
 +#pragma D attributes Evolving/Evolving/Common provider python name
 +#pragma D attributes Evolving/Evolving/Common provider python args
-diff -up Python-3.2b2/Makefile.pre.in.systemtap Python-3.2b2/Makefile.pre.in
---- Python-3.2b2/Makefile.pre.in.systemtap	2010-12-28 16:58:41.000000000 -0500
-+++ Python-3.2b2/Makefile.pre.in	2010-12-28 17:00:58.607310089 -0500
-@@ -328,6 +328,7 @@ PYTHON_OBJS=	\
- 		Python/formatter_unicode.o \
- 		Python/fileutils.o \
- 		Python/$(DYNLOADFILE) \
-+		@DTRACEOBJS@ \
- 		$(LIBOBJS) \
- 		$(MACHDEP_OBJS) \
- 		$(THREADOBJ)
-@@ -632,6 +633,18 @@ Objects/typeobject.o: $(srcdir)/Objects/
- $(srcdir)/Objects/typeslots.inc: $(srcdir)/Include/typeslots.h $(srcdir)/Objects/typeslots.py
- 	$(PYTHON) $(srcdir)/Objects/typeslots.py < $(srcdir)/Include/typeslots.h > $(srcdir)/Objects/typeslots.inc
- 
-+# Only needed with --with-dtrace
-+buildinclude:
-+	mkdir -p Include
-+
-+Include/pydtrace.h: buildinclude $(srcdir)/Include/pydtrace.d
-+	dtrace -o $@ $(DFLAGS) -C -h -s $(srcdir)/Include/pydtrace.d
-+
-+Python/ceval.o: Include/pydtrace.h
-+
-+Python/dtrace.o: buildinclude $(srcdir)/Include/pydtrace.d Python/ceval.o
-+	dtrace -o $@ $(DFLAGS) -C -G -s $(srcdir)/Include/pydtrace.d Python/ceval.o
-+
- ############################################################################
- # Header files
- 
-@@ -1282,7 +1295,7 @@ Python/thread.o: @THREADHEADERS@
- .PHONY: frameworkinstall frameworkinstallframework frameworkinstallstructure
- .PHONY: frameworkinstallmaclib frameworkinstallapps frameworkinstallunixtools
- .PHONY: frameworkaltinstallunixtools recheck autoconf clean clobber distclean
--.PHONY: smelly funny patchcheck
-+.PHONY: smelly funny patchcheck buildinclude
- .PHONY: gdbhooks
- 
- # IF YOU PUT ANYTHING HERE IT WILL GO AWAY
 diff -up Python-3.2b2/pyconfig.h.in.systemtap Python-3.2b2/pyconfig.h.in
 --- Python-3.2b2/pyconfig.h.in.systemtap	2010-11-20 05:29:12.000000000 -0500
 +++ Python-3.2b2/pyconfig.h.in	2010-12-28 16:58:41.765937360 -0500
@@ -211,4 +175,42 @@ diff -up Python-3.2b2/Python/ceval.c.systemtap Python-3.2b2/Python/ceval.c
 +    }
      Py_LeaveRecursiveCall();
      tstate->frame = f->f_back;
+
+--- Python-3.2.4/Makefile.pre.in.systemtap	2013-04-06 02:38:41.000000000 -0500
++++ Python-3.2.4/Makefile.pre.in	2013-04-22 12:28:10.218108335 -0500
+@@ -345,6 +345,7 @@ PYTHON_OBJS=	\
+ 		Python/formatter_unicode.o \
+ 		Python/fileutils.o \
+ 		Python/$(DYNLOADFILE) \
++		@DTRACEOBJS@ \
+ 		$(LIBOBJS) \
+ 		$(MACHDEP_OBJS) \
+ 		$(THREADOBJ)
+@@ -688,6 +689,18 @@ Objects/typeobject.o: Objects/typeslots.
+ Objects/typeslots.inc: $(srcdir)/Include/typeslots.h $(srcdir)/Objects/typeslots.py
+ 	$(PYTHON) $(srcdir)/Objects/typeslots.py < $(srcdir)/Include/typeslots.h > Objects/typeslots.inc
  
++# Only needed with --with-dtrace
++buildinclude:
++	mkdir -p Include
++
++Include/pydtrace.h: buildinclude $(srcdir)/Include/pydtrace.d
++	dtrace -o $@ $(DFLAGS) -C -h -s $(srcdir)/Include/pydtrace.d
++
++Python/ceval.o: Include/pydtrace.h
++
++Python/dtrace.o: buildinclude $(srcdir)/Include/pydtrace.d Python/ceval.o
++	dtrace -o $@ $(DFLAGS) -C -G -s $(srcdir)/Include/pydtrace.d Python/ceval.o
++
+ ############################################################################
+ # Header files
+ 
+@@ -1378,7 +1391,7 @@ Python/thread.o: @THREADHEADERS@
+ .PHONY: frameworkinstall frameworkinstallframework frameworkinstallstructure
+ .PHONY: frameworkinstallmaclib frameworkinstallapps frameworkinstallunixtools
+ .PHONY: frameworkaltinstallunixtools recheck autoconf clean clobber distclean
+-.PHONY: smelly funny patchcheck altmaninstall
++.PHONY: smelly funny patchcheck buildinclude altmaninstall
+ .PHONY: gdbhooks
+ 
+ # IF YOU PUT ANYTHING HERE IT WILL GO AWAY

@@ -121,8 +121,8 @@
 # ==================
 Summary: Version 3 of the Python programming language aka Python 3000
 Name: python32
-Version: %{pybasever}.3
-Release: 10.ius%{?dist}
+Version: %{pybasever}.4
+Release: 1.ius%{?dist}
 License: Python
 Group: Development/Languages
 
@@ -217,7 +217,7 @@ Patch1:         Python-3.1.1-rpath.patch
 # It's simplest to remove them:
 Patch3: python-3.2b2-remove-mimeaudio-tests.patch
 
-# 00055 #
+#- latest sources for 3.2.- updated Patch 00055 #
 # Systemtap support: add statically-defined probe points
 # Patch based on upstream bug: http://bugs.python.org/issue4111
 # fixed up by mjw and wcohen for 2.6.2, then fixed up by dmalcolm for 2.6.4
@@ -606,7 +606,7 @@ done
 # Apply patches:
 #
 %patch1 -p1
-%patch3 -p1 -b .remove-mimeaudio-tests
+#%patch3 -p1 -b .remove-mimeaudio-tests
 
 %if 0%{?with_systemtap}
 %patch55 -p1 -b .systemtap
@@ -647,7 +647,7 @@ done
 %patch143 -p1 -b .tsc-on-ppc
 # 00144: not for python3
 # 00145: not for python3
-%patch146 -p1
+#%patch146 -p1
 %patch147 -p1
 # 00148: upstream as of Python 3.2.3
 # 00149: upstream as of Python 3.2.3
@@ -659,7 +659,7 @@ done
 %patch153 -p0
 # 00154: not for this branch
 %patch155 -p1
-%patch156 -p1
+#%patch156 -p1
 
 %patch158 -p1
 %patch159 -p1
@@ -1511,6 +1511,11 @@ rm -fr %{buildroot}
 # ======================================================
 
 %changelog
+* Mon May 06 2013 Ben Harper <ben.harper@rackspace.com> - 3.2.4-1.ius
+- latest sources for 3.2.4
+- updated Patch55, Patch111, Patch113, Patch134, Patch146 and Patch147
+- disabled Patch3
+
 * Mon Jul 30 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.2.3-10.ius
 - Adding 00160-sharedlib-path.patch to avoid duplicate shared libs
 

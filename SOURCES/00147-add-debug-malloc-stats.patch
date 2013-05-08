@@ -60,23 +60,6 @@ diff -up Python-3.2.2/Include/methodobject.h.add-debug-malloc-stats Python-3.2.2
  #ifdef __cplusplus
  }
  #endif
-diff -up Python-3.2.2/Include/object.h.add-debug-malloc-stats Python-3.2.2/Include/object.h
---- Python-3.2.2/Include/object.h.add-debug-malloc-stats	2011-09-03 12:16:40.000000000 -0400
-+++ Python-3.2.2/Include/object.h	2011-09-16 18:57:24.972825060 -0400
-@@ -919,6 +919,13 @@ PyAPI_DATA(PyObject *) _PyTrash_delete_l
-     else \
-         _PyTrash_deposit_object((PyObject*)op);
- 
-+PyAPI_FUNC(void)
-+_PyDebugAllocatorStats(FILE *out, const char *block_name, int num_blocks,
-+		       size_t sizeof_block);
-+
-+PyAPI_FUNC(void)
-+_PyObject_DebugTypeStats(FILE *out);
-+
- #ifdef __cplusplus
- }
- #endif
 diff -up Python-3.2.2/Include/objimpl.h.add-debug-malloc-stats Python-3.2.2/Include/objimpl.h
 --- Python-3.2.2/Include/objimpl.h.add-debug-malloc-stats	2011-09-03 12:16:40.000000000 -0400
 +++ Python-3.2.2/Include/objimpl.h	2011-09-16 18:57:24.972825060 -0400
