@@ -16,7 +16,7 @@
 
 # ABIFLAGS, LDVERSION and SOABI are in the upstream Makefile
 %global ABIFLAGS_optimized mu
-%global ABIFLAGS_debug     dmu
+%global ABIFLAGS_debug	dmu
 
 %global LDVERSION_optimized %{pybasever}%{ABIFLAGS_optimized}
 %global LDVERSION_debug     %{pybasever}%{ABIFLAGS_debug}
@@ -308,7 +308,10 @@ Patch132: 00132-add-rpmbuild-hooks-to-unittest.patch
 # 00134 #
 # Fix a failure in test_sys.py when configured with COUNT_ALLOCS enabled
 # Not yet sent upstream
-Patch134: 00134-fix-COUNT_ALLOCS-failure-in-test_sys.patch
+#Patch134: 00134-fix-COUNT_ALLOCS-failure-in-test_sys.patch
+Patch13432: 0013432-fix-COUNT_ALLOCS-failure-in-test_sys.patch
+Patch13464: 0013464-fix-COUNT_ALLOCS-failure-in-test_sys.patch
+#fi
 
 # 00135 #
 # test_weakref's test_callback_in_cycle_resurrection doesn't work with
@@ -633,7 +636,12 @@ done
 
 %patch132 -p1
 # 00133: not for python3
-%patch134 -p1
+%ifarch %{ix86}
+%patch13432 -p1
+%endif
+%ifarch x86_64
+%patch13464 -p1
+%endif
 %patch135 -p1
 # 00136: not for python3
 %patch137 -p1
@@ -1513,8 +1521,9 @@ rm -fr %{buildroot}
 %changelog
 * Mon May 06 2013 Ben Harper <ben.harper@rackspace.com> - 3.2.4-1.ius
 - latest sources for 3.2.4
-- updated Patch55, Patch111, Patch113, Patch134, Patch146 and Patch147
-- disabled Patch3
+- added Patch13432 and Patch13464
+- updated Patch55, Patch111, Patch113, Patch146 and Patch147
+- disabled Patch3 and Patch134
 
 * Mon Jul 30 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.2.3-10.ius
 - Adding 00160-sharedlib-path.patch to avoid duplicate shared libs
