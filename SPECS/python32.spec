@@ -775,6 +775,7 @@ BuildPython() {
       --with-dbmliborder=gdbm:ndbm:bdb \
       --with-system-ffi \
       --with-wide-unicode \
+      --enable-loadable-sqlite-extensions \
 %if 0%{?with_systemtap}
       --with-dtrace \
       --with-tapset-install-dir=%{tapsetdir} \
