@@ -122,7 +122,7 @@
 Summary: Version 3 of the Python programming language aka Python 3000
 Name: python32
 Version: %{pybasever}.5
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 License: Python
 Group: Development/Languages
 # conflict with other IUS python3 packages
@@ -1530,6 +1530,13 @@ rm -fr %{buildroot}
 # ======================================================
 
 %changelog
+* Wed Jun 18 2014 Carl George <carl.george@rackspace.com> - 3.2.5-1.ius
+- Add conflicts for other IUS python3 packages
+- Add macro %%python3_version_nodots
+- Enable loading sqlite extensions (rhbz#1066938)
+- Fix multilib dependencies (rhbz#1091815)
+- Rename python3.Xm-config script to arch specific (rhbz#1091815)
+
 * Tue May 21 2013 Ben Harper <ben.harper@rackspace.com> - 3.2.5-1.ius
 - latest sources for 3.2.5
 
