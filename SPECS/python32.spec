@@ -1530,7 +1530,7 @@ rm -fr %{buildroot}
 # ======================================================
 
 %changelog
-* Wed Jun 18 2014 Carl George <carl.george@rackspace.com> - 3.2.5-1.ius
+* Wed Jun 18 2014 Carl George <carl.george@rackspace.com> - 3.2.5-2.ius
 - Add conflicts for other IUS python3 packages
 - Add macro %%python3_version_nodots
 - Enable loading sqlite extensions (rhbz#1066938)
