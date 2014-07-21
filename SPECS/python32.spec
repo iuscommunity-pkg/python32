@@ -449,6 +449,11 @@ Patch159: 00159-disable-tests-in-test_gdb.patch
 # way for more python packages
 #Patch160: 00160-sharedlib-path.patch
 
+# 00173 #
+# Workaround for ENOPROTOOPT seen in Koji withi test.support.bind_port()
+# (rhbz#913732)
+Patch173: 00173-workaround-ENOPROTOOPT-in-bind_port.patch
+
 # (New patches go here ^^^)
 #
 # When adding new patches to "python" and "python3" in Fedora 17 onwards,
@@ -676,6 +681,8 @@ done
 %patch159 -p1
 
 #%patch160 -p1
+
+%patch173 -p1
 
 # Currently (2010-01-15), http://docs.python.org/library is for 2.6, and there
 # are many differences between 2.6 and the Python 3 library.
@@ -1536,6 +1543,7 @@ rm -fr %{buildroot}
 - Enable loading sqlite extensions (rhbz#1066938)
 - Fix multilib dependencies (rhbz#1091815)
 - Rename python3.Xm-config script to arch specific (rhbz#1091815)
+- Add workaround for ENOPROTOOPT seen running selftests inside mock (rhbz#913732)
 
 * Tue May 21 2013 Ben Harper <ben.harper@rackspace.com> - 3.2.5-1.ius
 - latest sources for 3.2.5

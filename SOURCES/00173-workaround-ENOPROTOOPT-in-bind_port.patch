@@ -1,0 +1,13 @@
+diff -Naur a/Lib/test/support.py b/Lib/test/support.py
+--- a/Lib/test/support.py	2013-05-15 11:33:48.000000000 -0500
++++ b/Lib/test/support.py	2014-07-21 15:50:13.000000000 -0500
+@@ -476,7 +476,8 @@
+             if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) == 1:
+                 raise TestFailed("tests should never set the SO_REUSEADDR "   \
+                                  "socket option on TCP/IP sockets!")
+-        if hasattr(socket, 'SO_REUSEPORT'):
++        if hasattr(socket, 'SO_REUSEPORT') \
++                and 'WITHIN_PYTHON_RPM_BUILD' not in os.environ:
+             if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT) == 1:
+                 raise TestFailed("tests should never set the SO_REUSEPORT "   \
+                                  "socket option on TCP/IP sockets!")
