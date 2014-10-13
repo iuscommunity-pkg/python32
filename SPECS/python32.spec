@@ -222,9 +222,10 @@ Source7: pyfuntop.stp
 # Was Patch0 in ivazquez' python3000 specfile:
 Patch1:         Python-3.1.1-rpath.patch
 
-# The four TestMIMEAudio tests fail due to "audiotest.au" not being packaged.
-# It's simplest to remove them:
-Patch3: python-3.2b2-remove-mimeaudio-tests.patch
+# Some tests were removed due to audiotest.au not being packaged. However,
+# it is present in the archive in 3.2.6 (could have been added sooner), so we
+# no longer delete the tests.
+#  Patch3: python-3.2b2-remove-mimeaudio-tests.patch
 
 #- latest sources for 3.2.- updated Patch 00055 #
 # Systemtap support: add statically-defined probe points
@@ -320,7 +321,6 @@ Patch132: 00132-add-rpmbuild-hooks-to-unittest.patch
 #Patch134: 00134-fix-COUNT_ALLOCS-failure-in-test_sys.patch
 Patch13432: 0013432-fix-COUNT_ALLOCS-failure-in-test_sys.patch
 Patch13464: 0013464-fix-COUNT_ALLOCS-failure-in-test_sys.patch
-#fi
 
 # 00135 #
 # test_weakref's test_callback_in_cycle_resurrection doesn't work with
