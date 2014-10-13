@@ -121,8 +121,8 @@
 # ==================
 Summary: Version 3 of the Python programming language aka Python 3000
 Name: python32
-Version: %{pybasever}.5
-Release: 2.ius%{?dist}
+Version: %{pybasever}.6
+Release: 1.ius%{?dist}
 License: Python
 Group: Development/Languages
 # conflict with other IUS python3 packages
@@ -1538,6 +1538,10 @@ rm -fr %{buildroot}
 # ======================================================
 
 %changelog
+* Mon Oct 13 2014 Carl George <carl.george@rackspace.com> - 3.2.6-1.ius
+- Latest upstream source
+- Build against system version of expat
+
 * Wed Jun 18 2014 Carl George <carl.george@rackspace.com> - 3.2.5-2.ius
 - Add conflicts for other IUS python3 packages
 - Add macro %%python3_version_nodots
