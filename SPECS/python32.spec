@@ -143,9 +143,9 @@ BuildRequires: db4-devel >= 4.7
 # expat 2.1.0 added the symbol XML_SetHashSalt without bumping SONAME.  It was
 # backported to EL5 and EL6 to fix CVE-2012-0876.
 # https://rhn.redhat.com/errata/RHSA-2012-0731.html
-%{?el5: BuildRequires: expat-devel >= 1.95.8-11.el5_8 }
-%{?el6: BuildRequires: expat-devel >= 2.0.1-11.el6_2 }
-%{?el7: BuildRequires: expat-devel >= 2.1.0 }
+%{?el5:BuildRequires: expat-devel >= 1.95.8-11.el5_8}
+%{?el6:BuildRequires: expat-devel >= 2.0.1-11.el6_2}
+%{?el7:BuildRequires: expat-devel >= 2.1.0}
 
 BuildRequires: findutils
 BuildRequires: gcc-c++
@@ -513,9 +513,9 @@ Group:          Development/Libraries
 # expat 2.1.0 added the symbol XML_SetHashSalt without bumping SONAME.  It was
 # backported to EL5 and EL6 to fix CVE-2012-0876.
 # https://rhn.redhat.com/errata/RHSA-2012-0731.html
-%{?el5: Requires: expat >= 1.95.8-11.el5_8 }
-%{?el6: Requires: expat >= 2.0.1-11.el6_2 }
-%{?el7: Requires: expat >= 2.1.0 }
+%{?el5:Requires: expat >= 1.95.8-11.el5_8}
+%{?el6:Requires: expat >= 2.0.1-11.el6_2}
+%{?el7:Requires: expat >= 2.1.0}
 
 %description libs
 This package contains files used to embed Python 3 into applications.
