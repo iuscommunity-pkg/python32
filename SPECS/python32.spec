@@ -16,7 +16,7 @@
 
 # ABIFLAGS, LDVERSION and SOABI are in the upstream Makefile
 %global ABIFLAGS_optimized mu
-%global ABIFLAGS_debug	dmu
+%global ABIFLAGS_debug dmu
 
 %global LDVERSION_optimized %{pybasever}%{ABIFLAGS_optimized}
 %global LDVERSION_debug     %{pybasever}%{ABIFLAGS_debug}
@@ -840,7 +840,7 @@ mkdir -p %{buildroot}%{_prefix} %{buildroot}%{_mandir}
 
 InstallPython() {
 
-  ConfName=$1	      
+  ConfName=$1
   PyInstSoName=$2
 
   ConfDir=build/$ConfName
@@ -1132,7 +1132,7 @@ echo -e '#!/bin/sh\nexec `dirname $0`/python%{LDVERSION_optimized}-`uname -m`-co
 %check
 topdir=$(pwd)
 CheckPython() {
-  ConfName=$1	      
+  ConfName=$1
   ConfDir=$(pwd)/build/$ConfName
 
   echo STARTING: CHECKING OF PYTHON FOR CONFIGURATION: $ConfName
