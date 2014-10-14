@@ -681,7 +681,7 @@ done
 %patch143 -p1 -b .tsc-on-ppc
 # 00144: not for python3
 # 00145: not for python3
-#%patch146 -p1
+%patch146 -p1
 %patch147 -p1
 # 00148: upstream as of Python 3.2.3
 # 00149: upstream as of Python 3.2.3
@@ -693,7 +693,7 @@ done
 %patch153 -p0
 # 00154: not for this branch
 %patch155 -p1
-#%patch156 -p1
+%patch156 -p1
 
 %patch158 -p1
 %patch159 -p1
@@ -1541,6 +1541,8 @@ rm -fr %{buildroot}
 * Mon Oct 13 2014 Carl George <carl.george@rackspace.com> - 3.2.6-1.ius
 - Latest upstream source
 - Build against system version of expat
+- Refresh patches 55, 114, 146, and 156
+- Re-enable patches 146 and 156
 
 * Wed Jun 18 2014 Carl George <carl.george@rackspace.com> - 3.2.5-2.ius
 - Add conflicts for other IUS python3 packages
