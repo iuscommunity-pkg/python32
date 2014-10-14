@@ -1,18 +1,10 @@
-diff -up Python-3.2a1/Modules/posixmodule.c.statvfs-f-flag-constants Python-3.2a1/Modules/posixmodule.c
---- Python-3.2a1/Modules/posixmodule.c.statvfs-f-flag-constants	2010-07-23 09:53:51.000000000 -0400
-+++ Python-3.2a1/Modules/posixmodule.c	2010-08-02 16:39:38.756000423 -0400
-@@ -8173,6 +8173,43 @@ all_ins(PyObject *d)
- #endif
- #endif
+diff -Naur a/Modules/posixmodule.c b/Modules/posixmodule.c
+--- a/Modules/posixmodule.c	2014-10-12 01:52:03.000000000 -0500
++++ b/Modules/posixmodule.c	2014-10-14 13:11:21.396196685 -0500
+@@ -8450,6 +8450,35 @@
+     if (ins(d, "ST_NOSUID", (long)ST_NOSUID)) return -1;
+ #endif /* ST_NOSUID */
  
-+    /* These came from statvfs.h */
-+#ifdef ST_RDONLY
-+    if (ins(d, "ST_RDONLY", (long)ST_RDONLY)) return -1;
-+#endif /* ST_RDONLY */
-+#ifdef ST_NOSUID
-+    if (ins(d, "ST_NOSUID", (long)ST_NOSUID)) return -1;
-+#endif /* ST_NOSUID */
-+
 +    /* GNU extensions */
 +#ifdef ST_NODEV
 +    if (ins(d, "ST_NODEV", (long)ST_NODEV)) return -1;
@@ -42,6 +34,6 @@ diff -up Python-3.2a1/Modules/posixmodule.c.statvfs-f-flag-constants Python-3.2a
 +    if (ins(d, "ST_RELATIME", (long)ST_RELATIME)) return -1;
 +#endif /* ST_RELATIME */
 +
- #if defined(PYOS_OS2)
-     if (insertvalues(d)) return -1;
- #endif
+ #ifdef HAVE_SPAWNV
+ #if defined(PYOS_OS2) && defined(PYCC_GCC)
+     if (ins(d, "P_WAIT", (long)P_WAIT)) return -1;
